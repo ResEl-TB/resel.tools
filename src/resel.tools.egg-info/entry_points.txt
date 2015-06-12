@@ -1,0 +1,6 @@
+
+      # -*- Entry points: -*-
+      [console_scripts]
+      is_valid_ip = resel.tools:is_valid_ip_main
+      ip_in_subnet = resel.tools:ip_in_subnet_main
+      

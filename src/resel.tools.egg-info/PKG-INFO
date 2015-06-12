@@ -1,0 +1,34 @@
+Metadata-Version: 1.1
+Name: resel.tools
+Version: 0.1-dev
+Summary: Tools for python Resel scripts
+Home-page: ''
+Author: voileux
+Author-email: voileux@resel.fr
+License: BSD
+Description: .. contents::
+        
+        Introduction
+        ============
+        
+        Tools for python Resel scripts
+        
+        
+        Changelog
+        =========
+        
+        0.1-dev (unreleased)
+        ------------------------
+        
+        - voileux <voileux@resel.fr>
+        
+        
+        Contributors
+        ==============
+        
+        voileux, Author
+        
+Keywords: tools python
+Platform: any
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: BSD License
