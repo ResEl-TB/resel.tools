@@ -21,7 +21,7 @@ desc_files = (('README.rst',), ('docs', 'CHANGES.rst'),
 
 long_description = '\n\n'.join([read_file(*pathes) for pathes in desc_files])
 
-install_requires=['setuptools']
+install_requires=['setuptools', 'IPy']
 
 
 setup(name='resel.tools',
@@ -51,6 +51,7 @@ setup(name='resel.tools',
       [console_scripts]
       is_valid_ip = resel.tools:is_valid_ip_main
       ip_in_subnet = resel.tools:ip_in_subnet_main
+      add_host_2_dhcpd = resel.tools:add_2_dhcpd
       """,
       )
 
