@@ -6,22 +6,27 @@ import shutil
 from IPy import IP
 from network import is_valid_ip, ip_in_subnet
 from  utils import read_file
-
-#client_file = "/usr/local/etc/dhcpd.conf"
-client_file = "/srv/reloader/scripts/dhcp/dhcpd.conf"
-service = "isc-dhcpd"
-net_user21 = IP('172.22.200.0/21')
-net_user20 =  IP('172.22.208.0/20')
+from ConfigParser import SafeConfigParser
+import sys
 
 def parser():
     # Liste des arguments du script
+    config = 'config.ini' 
     parser = argparse.ArgumentParser(description='Ajoute une machine au fichier de conf du dhcp')
+    parser.add_argument('-c', '--config', default='%s' % config,
+                          help='config filename, default is %s' % config)
+
+
     parser.add_argument('host', type=str,  help='champ host de la fiche ldap de la machine')
     parser.add_argument('ip', type=str,  help='IPv4 de la machine')
     parser.add_argument('mac', type=str, help='adresse mac de la machine')
     parser.add_argument('hostname', type=str,  help='champ hostname de la fiche ldap de la machine')
     return parser.parse_args()
 
+def get_config(filename):
+    parser = SafeConfigParser()
+    parser.read(filename)
+    return parser._sections
 
        
 
@@ -94,11 +99,21 @@ def get_hostnames(leases):
     """
     return [leases[host]['hostname'] for host in leases]
 
-def main():
+def add_2_dhcpd():
     args = parser()
+    config = get_config(args.config)
+    
+    if not is_valid_ip(args.ip):
+        sys.exit()
+   
+    if not ip_in_subnet(args.ip, config['network']['subnet_user1']) and not ip_in_subnet(args.ip, config['network']['subnet_user2']):
+        sys.exit()
+
+
+    
 
     bad = None
-    leases = parse_dhcpd_config('dhcpd.conf')
+    leases = parse_dhcpd_config(config['dhcpd']['file'] )
     ips = get_ips(leases)
     macs = get_macs(leases)
     hostnames = get_hostnames(leases)
