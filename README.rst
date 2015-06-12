@@ -18,7 +18,7 @@ NETWORK
 
 Some Network tools to check IPv4
 
-usr@host: is_valid_ip -h 
+usr@host:~/resel.tools % is_valid_ip -h 
 usage: is_valid_ip [-h] ip
 
 check if ip is valid
