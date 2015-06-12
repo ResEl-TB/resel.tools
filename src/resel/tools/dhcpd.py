@@ -45,7 +45,6 @@ def parse_dhcpd_config(filename):
 
     """
 
-
     leases = {}
     lines = read_file(filename)
     new_block = False
@@ -68,15 +67,31 @@ def parse_dhcpd_config(filename):
 
 
 def get_hosts(leases):
+    """ get list of host in leases
+    leases is a dict from parse_dhcpd_config
+    return hosts as list
+    """
     return leases.keys()
 
 def get_ips(leases):
+    """ get list of ips in leases
+    leases is a dict from parse_dhcpd_config
+    return ips as list for each host in leases dict
+    """
     return [leases[host]['ip'] for host in leases]
 
 def get_macs(leases):
+    """ get list of macs in leases
+    leases is a dict from parse_dhcpd_config
+    return macs as list for each host in leases dict
+    """
     return [leases[host]['mac'] for host in leases]
 
 def get_hostnames(leases):
+    """ get hostnames of ips in leases
+    leases is a dict from parse_dhcpd_config
+    return hostnames as list for each host in leases dict
+    """
     return [leases[host]['hostname'] for host in leases]
 
 def main():
