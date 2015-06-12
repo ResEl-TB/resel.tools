@@ -18,7 +18,11 @@ NETWORK
 
 Some Network tools to check IPv4
 
-usr@host:~/resel.tools % is_valid_ip -h 
+is_valid_ip
+-----------
+Check if an IPv4 address is valid 
+
+user@host:~/resel.tools % is_valid_ip -h 
 usage: is_valid_ip [-h] ip
 
 check if ip is valid
@@ -29,7 +33,21 @@ positional arguments:
 optional arguments:
   -h, --help  show this help message and exit
 
+ip_in_subnet
+-------------
+Check if an IPv4 address is in a Subnet 
 
+user@host:~/resel.tools % ip_in_subnet -h
+usage: ip_in_subnet [-h] ip subnet
+
+check if ip is valid
+
+positional arguments:
+  ip          an IPv4 address
+  subnet      an IPv4 subnet
+
+optional arguments:
+  -h, --help  show this help message and exit
 
 
 DHCPD
