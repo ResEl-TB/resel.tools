@@ -45,7 +45,7 @@ def parse_dhcpd_config(filename):
         'hostname' : alalevee }
         ...
         }
-    >>> parse_dhcpd_config('tests/dhcpd.conf')
+    >>> parse_dhcpd_config('tests/data/dhcpd.conf')
     {'alalevee-1': {'ip': '172.22.219.81', 'line': 9, 'hostname': 'alalevee', 'mac': '48:5b:39:64:bf:6b'}}
 
     """
