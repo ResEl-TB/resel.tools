@@ -15,4 +15,6 @@ src/resel.tools.egg-info/not-zip-safe
 src/resel.tools.egg-info/requires.txt
 src/resel.tools.egg-info/top_level.txt
 src/resel/tools/__init__.py
+src/resel/tools/dhcpd.py
 src/resel/tools/network.py
+src/resel/tools/utils.py
