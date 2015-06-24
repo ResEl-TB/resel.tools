@@ -4,6 +4,8 @@
 from IPy import IP
 import argparse
 
+from ip_generator import ip_generator 
+
 def is_valid_ip(ip):
     """Check if ip is a valid ip.
 
