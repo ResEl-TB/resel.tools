@@ -22,8 +22,7 @@ is_valid_ip
 -----------
 Check if an IPv4 address is valid 
 
-user@host:~/resel.tools % is_valid_ip -h 
-usage: is_valid_ip [-h] ip
+    is_valid_ip [-h] ip
 
 check if ip is valid
 
@@ -37,8 +36,7 @@ ip_in_subnet
 -------------
 Check if an IPv4 address is in a Subnet 
 
-user@host:~/resel.tools % ip_in_subnet -h
-usage: ip_in_subnet [-h] ip subnet
+    ip_in_subnet [-h] ip subnet
 
 check if ip is valid
 
