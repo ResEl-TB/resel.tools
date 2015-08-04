@@ -3,6 +3,7 @@
 
 from IPy import IP
 import argparse
+import re
 
 from ip_generator import ip_generator 
 
@@ -66,6 +67,7 @@ def ip_in_subnet(ip, subnet):
             print('%s not in %s' %(ip, subnet))
         return result 
 
+
 def ip_in_subnet_main():
     # Liste des arguments du script
     parser = argparse.ArgumentParser(description='check if ip is valid')
@@ -76,3 +78,34 @@ def ip_in_subnet_main():
         print("%s is in %s " %(args.ip, args.subnet) )
 
  
+
+
+def get_mac_from_ip(adresseIP):
+    """ Récupère l'adresse MAC assoee a l'IP fourni
+    
+    >>> get_mac_from_ip('172.22.201.1')
+
+    """
+
+    try:
+        if re.search('172.'+ LOCAL_NET + '.(20{1,3}|21{1,3}|220|221|222|223|224|225)', adresseIP) is None:
+            warning( "Vous n'utilisez pas une adresse IPv4 du type 172.".LOCAL_NET.".224-225.X. Veuillez configurer votre IP en DHCP" )
+            infoDHCP()
+            erreurcritique( "Cas d'erreur non détecté précédemment [getMac] avec l'adresse " + adresseIP )
+
+        mac = subprocess.Popen(["ip neigh show | grep '{}' | awk '{ print $5 }'".format(adresseIP)], stdout=subprocess.PIPE, shell=True).communicate()[0].split('\n')[0].lower()
+        matches = re.search('[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}', mac)
+
+        if matches is None:
+            erreurcritique( "Erreur de récupération de la MAC avec l'hôte {}".format(adresseIP) )
+
+        if len(matches) != 2:
+            erreurcritique( "Mauvais nombre de matches ({}) dans [getMac] pour {}".format(adresseIP) )
+
+        return matches[0]
+
+    except NameError:
+        erreurcritique( "Aucune adresse IP fournie" )
+
+
+
