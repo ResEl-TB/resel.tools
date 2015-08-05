@@ -33,8 +33,6 @@ def is_valid_ip_main():
     if is_valid_ip(args.ip):
         print("%s is a valid IPv4 Adress" %args.ip)
 
-   
-
 def ip_in_subnet(ip, subnet):
     """ Check if ip in subnet.
     
@@ -67,7 +65,6 @@ def ip_in_subnet(ip, subnet):
             print('%s not in %s' %(ip, subnet))
         return result 
 
-
 def ip_in_subnet_main():
     # Liste des arguments du script
     parser = argparse.ArgumentParser(description='check if ip is valid')
@@ -76,9 +73,6 @@ def ip_in_subnet_main():
     args = parser.parse_args()
     if ip_in_subnet(args.ip, args.subnet):
         print("%s is in %s " %(args.ip, args.subnet) )
-
- 
-
 
 def get_mac_from_ip(ip, LOCAL_NET):
     """ Récupère l'adresse MAC associee a l'IP fournie
@@ -109,15 +103,6 @@ def get_mac_from_ip(ip, LOCAL_NET):
     except NameError:
         print "Aucune adresse IP fournie"
         return None
-
-def get_mac_from_ip_main():
-    # Liste des arguments du script
-    parser = argparse.ArgumentParser(description='Get the MAC associated to the given IP')
-    parser.add_argument('ip', type=str,  help='an IPv4 address')
-    parser.add_argument('LOCAL_NET', type=str,  help='22 for Brest, 23 for Rennes')
-    args = parser.parse_args()
-    if get_mac_from_ip(args.ip, args.LOCAL_NET) is not None:
-        print("%s is associated to %s " %(get_mac_from_ip(args.ip, args.LOCAL_NET), args.ip) )
 
 
 
