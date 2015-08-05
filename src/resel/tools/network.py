@@ -80,32 +80,44 @@ def ip_in_subnet_main():
  
 
 
-def get_mac_from_ip(adresseIP):
-    """ Récupère l'adresse MAC assoee a l'IP fourni
+def get_mac_from_ip(ip, LOCAL_NET):
+    """ Récupère l'adresse MAC associee a l'IP fournie
     
-    >>> get_mac_from_ip('172.22.201.1')
+    >>> get_mac_from_ip('172.22.201.1', '22') # '22' pour Brest, '23' pour Rennes
 
     """
 
     try:
-        if re.search('172.'+ LOCAL_NET + '.(20{1,3}|21{1,3}|220|221|222|223|224|225)', adresseIP) is None:
-            warning( "Vous n'utilisez pas une adresse IPv4 du type 172.".LOCAL_NET.".224-225.X. Veuillez configurer votre IP en DHCP" )
-            infoDHCP()
-            erreurcritique( "Cas d'erreur non détecté précédemment [getMac] avec l'adresse " + adresseIP )
+        if re.search('172.'+ LOCAL_NET + '.(20{1,3}|21{1,3}|220|221|222|223|224|225)', ip) is None:
+            print("L'adresse fournie ne fait pas partie du subnet ResEl.")
+            return None
 
-        mac = subprocess.Popen(["ip neigh show | grep '{}' | awk '{ print $5 }'".format(adresseIP)], stdout=subprocess.PIPE, shell=True).communicate()[0].split('\n')[0].lower()
+        mac = subprocess.Popen(["ip neigh show | grep '{}' | awk '{ print $5 }'".format(ip)], stdout=subprocess.PIPE, shell=True).communicate()[0].split('\n')[0].lower()
         matches = re.search('[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}', mac)
 
         if matches is None:
-            erreurcritique( "Erreur de récupération de la MAC avec l'hôte {}".format(adresseIP) )
+            print("Aucun resultat avec l'hote {}".format(ip))
+            return None
 
         if len(matches) != 2:
-            erreurcritique( "Mauvais nombre de matches ({}) dans [getMac] pour {}".format(adresseIP) )
+            print("Mauvais nombre de matches ({}) dans pour {}".format(ip))
+            return None
 
+        print("La MAC associee a l'IP {} est {}".format(ip, matches[0]))
         return matches[0]
 
     except NameError:
-        erreurcritique( "Aucune adresse IP fournie" )
+        print "Aucune adresse IP fournie"
+        return None
+
+def get_mac_from_ip_main():
+    # Liste des arguments du script
+    parser = argparse.ArgumentParser(description='Get the MAC associated to the given IP')
+    parser.add_argument('ip', type=str,  help='an IPv4 address')
+    parser.add_argument('LOCAL_NET', type=str,  help='22 for Brest, 23 for Rennes')
+    args = parser.parse_args()
+    if get_mac_from_ip(args.ip, args.LOCAL_NET) is not None:
+        print("%s is associated to %s " %(get_mac_from_ip(args.ip, args.LOCAL_NET), args.ip) )
 
 
 
