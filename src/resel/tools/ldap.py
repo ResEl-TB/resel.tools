@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import ldap
+import ldap.modlist as modlist
 import sys
 import argparse
 
-def ldap_search(baseDN, searchFilter):
+import constantes_admin
+
+def search(dn, filtre):
 	""" Search in the ResEl LDAP with the given parameters
 
-	>>> ldap_search('ou=machines,dc=resel,dc=enst-bretagne,dc=fr', '(Zone=User)')
+	>>> search('ou=machines,dc=resel,dc=enst-bretagne,dc=fr', '(Zone=User)')
 	"""
 	try:
 		try:
@@ -21,7 +24,7 @@ def ldap_search(baseDN, searchFilter):
 		searchScope = ldap.SCOPE_SUBTREE
 
 		try:
-			ldap_result_id = l.search(baseDN, searchScope, searchFilter, retrieveAttributes)
+			ldap_result_id = l.search(dn, searchScope, filtre, retrieveAttributes)
 			result_type, result_data = l.result(ldap_result_id, 0)
 
 			if (result_data == []):
@@ -37,11 +40,51 @@ def ldap_search(baseDN, searchFilter):
 	except NameError:
 		print("Undefined parameters")
 
-def ldap_search_main():
-	# Liste des arguments du script
-    parser = argparse.ArgumentParser(description='Search in the ResEl LDAP with the given parameters')
-    parser.add_argument('baseDN', type=str,  help='The dn in which were are searching')
-    parser.add_argument('searchFilter', type=str, help='Filter for our search in the specified dn')
-    args = parser.parse_args()
-    if ldap_search(args.baseDN, args.searchFilter):
-        return ldap_search(args.baseDN, args.searchFilter)
+def add(dn, attrs):
+	"""
+	attrs : dictionnary with several keys, such as 'objectclass', 'cn', 'userPassword'
+
+	Add the given object to the given dn
+
+	>>> add('ou=machines,dc=resel,dc=enst-bretagne,dc=fr', '(Zone=User)')
+	"""
+	try:
+		try:
+			l = ldap.initialize('ldaps://ldap.maisel.enst-bretagne.fr:389')
+			l.protocol_version = ldap.VERSION3
+			l.simple_bind_s(ldap_admin, ldap_passwd)
+			ldif = modlist.addModlist(attrs)
+			l.add_s(dn, ldif)
+			l.unbind_s()
+			print("Ajout reussi de {} dans {}".format(attrs, dn))
+
+		except ldap.LDAPError, e:
+			print(e)
+
+	except NameError:
+		print("Undefined parameters")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
